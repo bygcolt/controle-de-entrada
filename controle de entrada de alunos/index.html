@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Nivelamento - Trevo Jiu-Jitsu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Fundo escuro texturizado lembrando aço/tatame escuro */
+            background-color: #121212;
+            background-image: linear-gradient(45deg, #1a1a1a 25%, transparent 25%, transparent 75%, #1a1a1a 75%, #1a1a1a),
+                              linear-gradient(45deg, #1a1a1a 25%, transparent 25%, transparent 75%, #1a1a1a 75%, #1a1a1a);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            margin: 0;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 650px;
+            margin: auto;
+            /* Container com efeito de aço escovado claro */
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 50%, #cccccc 100%);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            color: #111;
+            border: 1px solid #999;
+        }
+        .header-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 15px;
+            /* Sombra sutil para destacar a logo branca no fundo claro */
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3)); 
+        }
+        h2 {
+            text-align: center;
+            color: #000;
+            border-bottom: 2px solid #555;
+            padding-bottom: 15px;
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .section-title {
+            border-left: 4px solid #000;
+            padding-left: 10px;
+            margin-top: 30px;
+            color: #222;
+            font-size: 1.2em;
+            text-transform: uppercase;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #222;
+        }
+        input[type="text"], input[type="tel"], input[type="date"], input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            /* Inputs com visual escurecido e bordas metálicas */
+            background-color: #fff;
+            border: 2px solid #888;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+            color: #000;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="tel"]:focus, input[type="date"]:focus, input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #000;
+            box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+        .checkbox-group label {
+            display: block;
+            font-weight: normal;
+            margin-bottom: 8px;
+            color: #333;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        .termo-box {
+            background: #fff;
+            padding: 15px;
+            border: 2px solid #888;
+            border-radius: 6px;
+            font-size: 0.9em;
+            height: 150px;
+            overflow-y: scroll;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .termo-box strong {
+            color: #000;
+        }
+        button {
+            /* Botão com efeito metálico escuro */
+            background: linear-gradient(to bottom, #444, #111);
+            color: #fff;
+            padding: 15px 20px;
+            border: 1px solid #000;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: linear-gradient(to bottom, #555, #222);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.4);
+        }
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .small-text {
+            font-size: 0.85em;
+            color: #555;
+            display: block;
+            margin-top: 5px;
+        }
+        .document-section {
+            background-color: rgba(255,255,255,0.5);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px dashed #777;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        #msgRetorno {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        .msg-sucesso {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .msg-erro {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header-section">
+        <img src="image_fca659.png" alt="Trevo Jiu-Jitsu Irmãos Moreira Logo" class="logo" onerror="this.onerror=null; this.src='https://placehold.co/150x150/121212/FFFFFF?text=LOGO+AQUI';">
+        <h2>Ficha de Cadastro e Nivelamento</h2>
+    </div>
+
+    <form id="formJiuJitsu">
+        
+        <!-- Seleção de Perfil -->
+        <div class="form-group">
+            <label for="tipo_cadastro">Perfil do Aluno:</label>
+            <select id="tipo_cadastro" name="tipo_cadastro" onchange="toggleForm()" required>
+                <option value="">-- Selecione o Perfil --</option>
+                <option value="adulto">Aluno Adulto (Maior de 18 anos)</option>
+                <option value="kids">Aluno Kids/Infantil (Menor de 18 anos)</option>
+            </select>
+        </div>
+
+        <h3 class="section-title">Dados Pessoais</h3>
+
+        <div class="form-group">
+            <label for="nome_aluno">Nome Completo do Aluno:</label>
+            <input type="text" id="nome_aluno" name="nome_aluno" placeholder="Digite o nome completo" required>
+        </div>
+
+        <div class="form-group">
+            <label for="data_nascimento">Data de Nascimento:</label>
+            <input type="date" id="data_nascimento" name="data_nascimento" required>
+        </div>
+
+        <div class="form-group">
+            <label for="telefone">Telefone / WhatsApp:</label>
+            <input type="tel" id="telefone" name="telefone" placeholder="(DDD) 9XXXX-XXXX" required>
+        </div>
+
+        <div class="form-group">
+            <label for="endereco">Endereço Completo:</label>
+            <input type="text" id="endereco" name="endereco" placeholder="Rua, Número, Bairro, CEP" required>
+        </div>
+
+        <h3 class="section-title">Dados de Saúde e Físicos</h3>
+
+        <div class="form-group">
+            <label for="peso">Peso (kg):</label>
+            <input type="number" id="peso" name="peso" step="0.1" placeholder="Ex: 75.5" required>
+        </div>
+
+        <div class="form-group">
+            <label for="tipo_sanguineo">Tipo Sanguíneo:</label>
+            <select id="tipo_sanguineo" name="tipo_sanguineo">
+                <option value="Não Informado">-- Selecione (Opcional) --</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="patologia">Possui alguma Patologia Crônica?</label>
+            <span class="small-text" style="margin-bottom: 6px; display: block;">Ex: Diabetes, Hipoglicemia, Hipertensão, Hipotensão, Asma, etc.</span>
+            <input type="text" id="patologia" name="patologia" placeholder="Caso possua, especifique aqui (ou digite 'Nenhuma')">
+        </div>
+
+        <div class="form-group">
+            <label for="medicamentos">Faz uso contínuo de algum medicamento?</label>
+            <input type="text" id="medicamentos" name="medicamentos" placeholder="Caso tome, especifique qual(is) (ou digite 'Não')">
+        </div>
+
+        <div class="form-group">
+            <label for="alergias">Possui alguma Alergia?</label>
+            <span class="small-text" style="margin-bottom: 6px; display: block;">Ex: Alergia a medicamentos, alimentos ou insetos.</span>
+            <input type="text" id="alergias" name="alergias" placeholder="Caso possua, especifique aqui (ou digite 'Nenhuma')">
+        </div>
+
+        <h3 class="section-title">Turma e Pagamento</h3>
+
+        <div class="form-group">
+            <label for="nivel">Nível de Experiência:</label>
+            <select id="nivel" name="nivel" required>
+                <option value="">-- Selecione o Nível --</option>
+                <option value="iniciante">Nível B - Iniciante</option>
+                <option value="avancado">Nível A - Avançado</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="data_pagamento">Melhor data para pagamento da mensalidade:</label>
+            <select id="data_pagamento" name="data_pagamento" required>
+                <option value="">-- Selecione o dia de vencimento --</option>
+                <option value="Dia 05">Dia 05</option>
+                <option value="Dia 10">Dia 10</option>
+                <option value="Dia 15">Dia 15</option>
+                <option value="Dia 20">Dia 20</option>
+            </select>
+        </div>
+
+        <!-- Seção: Dados do Responsável (Oculto por padrão) -->
+        <div id="sec_responsavel" class="hidden">
+            <h3 class="section-title">Dados do Responsável Legal</h3>
+            <div class="form-group">
+                <label for="nome_responsavel">Nome Completo do Responsável:</label>
+                <input type="text" id="nome_responsavel" name="nome_responsavel" placeholder="Obrigatório para menores de idade">
+            </div>
+            <div class="form-group">
+                <label for="parentesco">Grau de Parentesco:</label>
+                <select id="parentesco" name="parentesco">
+                    <option value="">-- Selecione --</option>
+                    <option value="pai">Pai</option>
+                    <option value="mae">Mãe</option>
+                    <option value="avo">Avô/Avó</option>
+                    <option value="outro">Outro (Tio/Tia, Tutor Legal, etc.)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Seção: Horários Kids (Oculto por padrão) -->
+        <div id="sec_horarios_kids" class="hidden">
+            <h3 class="section-title">Horários de Treino (Kids)</h3>
+            <div class="form-group checkbox-group">
+                <label><strong>Dias de Treino Preferenciais (Segunda a Sexta):</strong></label>
+                <label><input type="checkbox" name="dias_kids" value="segunda"> Segunda-feira</label>
+                <label><input type="checkbox" name="dias_kids" value="terca"> Terça-feira</label>
+                <label><input type="checkbox" name="dias_kids" value="quarta"> Quarta-feira</label>
+                <label><input type="checkbox" name="dias_kids" value="quinta"> Quinta-feira</label>
+                <label><input type="checkbox" name="dias_kids" value="sexta"> Sexta-feira</label>
+            </div>
+            <div class="form-group">
+                <label for="horario_kids">Horário Preferencial:</label>
+                <select id="horario_kids" name="horario_kids">
+                    <option value="">-- Selecione o Horário --</option>
+                    <option value="18_19">18:00 às 19:00</option>
+                    <option value="19_20">19:00 às 20:00</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Seção: Horários Adulto (Oculto por padrão) -->
+        <div id="sec_horarios_adulto" class="hidden">
+            <h3 class="section-title">Horários de Treino (Adulto)</h3>
+            <div class="form-group checkbox-group">
+                <label><strong>Dias de Treino Disponíveis:</strong></label>
+                <label><input type="checkbox" name="dias_adulto" value="segunda" checked> Segunda-feira (20:00 às 22:00)</label>
+                <label><input type="checkbox" name="dias_adulto" value="quarta" checked> Quarta-feira (20:00 às 22:00)</label>
+                <label><input type="checkbox" name="dias_adulto" value="sexta" checked> Sexta-feira (20:00 às 22:00)</label>
+                <span class="small-text">* Os treinos adultos ocorrem exclusivamente nestes dias e horários.</span>
+            </div>
+        </div>
+
+        <!-- Campo de Documento (RG/CPF) -->
+        <div class="document-section">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="documento_id">Documento de Identificação (RG ou CPF):</label>
+                <span class="small-text" style="margin-bottom: 8px;">* Se menor de idade, inserir o documento do responsável.</span>
+                <input type="text" id="documento_id" name="documento_id" placeholder="Digite apenas números" required>
+            </div>
+        </div>
+
+        <!-- Termo de Responsabilidade -->
+        <div class="form-group">
+            <label>Termo de Responsabilidade e Ciência de Risco:</label>
+            <div class="termo-box">
+                <strong>Declaração de Ciência e Assunção de Riscos:</strong><br><br>
+                Declaro para os devidos fins de direito que, por minha livre e espontânea vontade, estou matriculando-me (ou matriculando o menor sob minha responsabilidade legal) nas aulas da Trevo Jiu-Jitsu.<br><br>
+                Reconheço e assumo integralmente que a prática do Jiu-Jitsu e artes marciais é um esporte de intenso contato físico, que envolve riscos inerentes e imprevisíveis, incluindo, mas não se limitando a: lesões articulares, contusões musculares, escoriações, fraturas e outros perigos inerentes aos treinamentos técnicos, físicos e simulações de combate (rolas).<br><br>
+                Atesto que o praticante encontra-se em perfeitas condições de saúde física e mental para a prática de atividades físicas de alta intensidade.<br><br>
+                Por este instrumento, isento os professores, instrutores, a Trevo Jiu-Jitsu Irmãos Moreira, bem como o espaço onde as aulas são ministradas, de qualquer responsabilidade civil, criminal ou indenizatória por eventuais acidentes, danos ou lesões de qualquer natureza ocorridas durante a prática esportiva nas dependências do tatame.
+            </div>
+            <label style="font-weight: bold; margin-top: 15px; cursor: pointer; display: flex; align-items: flex-start; gap: 10px;">
+                <input type="checkbox" name="aceite_termo" required style="width: auto; margin-top: 3px;"> 
+                <span>Li, compreendi os riscos inerentes à prática do Jiu-Jitsu e estou de acordo com o termo de responsabilidade acima.</span>
+            </label>
+        </div>
+
+        <button type="submit" id="btnSubmit">Enviar Cadastro</button>
+        <div id="msgRetorno"></div>
+    </form>
+</div>
+
+<script>
+    function toggleForm() {
+        var tipo = document.getElementById('tipo_cadastro').value;
+        var secResponsavel = document.getElementById('sec_responsavel');
+        var secHorarioKids = document.getElementById('sec_horarios_kids');
+        var secHorarioAdulto = document.getElementById('sec_horarios_adulto');
+
+        // Limpa a obrigatoriedade dos campos ocultos
+        document.getElementById('nome_responsavel').required = false;
+        document.getElementById('parentesco').required = false;
+        document.getElementById('horario_kids').required = false;
+
+        if (tipo === 'kids') {
+            // Mostra seção kids e responsável
+            secResponsavel.classList.remove('hidden');
+            secHorarioKids.classList.remove('hidden');
+            secHorarioAdulto.classList.add('hidden');
+            
+            // Torna os campos do responsável obrigatórios
+            document.getElementById('nome_responsavel').required = true;
+            document.getElementById('parentesco').required = true;
+            document.getElementById('horario_kids').required = true;
+
+        } else if (tipo === 'adulto') {
+            // Mostra seção adulto
+            secResponsavel.classList.add('hidden');
+            secHorarioKids.classList.add('hidden');
+            secHorarioAdulto.classList.remove('hidden');
+
+        } else {
+            // Esconde tudo se voltar para a opção padrão
+            secResponsavel.classList.add('hidden');
+            secHorarioKids.classList.add('hidden');
+            secHorarioAdulto.classList.add('hidden');
+        }
+    }
+
+    // INTEGRAÇÃO COM GOOGLE SHEETS
+    const form = document.getElementById('formJiuJitsu');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const msgRetorno = document.getElementById('msgRetorno');
+    
+    // O NOVO link gerado pelo Google Apps Script
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwjQP1BrtEAnpUp_4AfqURjmPFI01BFPldX4sfjny_Ro5Z1nosFDi0805NvgDMAlAQeRQ/exec'; 
+
+    form.addEventListener('submit', e => {
+        e.preventDefault(); // Impede a página de recarregar
+        
+        const originalBtnText = btnSubmit.innerText;
+        
+        // Efeito de carregamento
+        btnSubmit.innerText = 'Enviando aguarde...';
+        btnSubmit.disabled = true;
+        btnSubmit.style.opacity = '0.7';
+        msgRetorno.style.display = 'none';
+
+        const data = new FormData(form);
+        
+        // Agrupando os dias de treino (checkboxes) em um único texto separado por vírgula
+        const diasKids = Array.from(data.getAll('dias_kids')).join(', ');
+        const diasAdulto = Array.from(data.getAll('dias_adulto')).join(', ');
+        
+        data.set('dias_kids', diasKids);
+        data.set('dias_adulto', diasAdulto);
+
+        // Enviando os dados para a planilha
+        fetch(scriptURL, { method: 'POST', body: data})
+          .then(response => {
+            msgRetorno.textContent = "Cadastro recebido com sucesso! Obrigado.";
+            msgRetorno.className = "msg-sucesso";
+            msgRetorno.style.display = "block";
+            
+            form.reset(); // Limpa o formulário
+            toggleForm(); // Esconde os campos novamente
+            
+            // Restaura o botão
+            btnSubmit.innerText = originalBtnText;
+            btnSubmit.disabled = false;
+            btnSubmit.style.opacity = '1';
+          })
+          .catch(error => {
+            msgRetorno.textContent = "Erro ao enviar o cadastro. Tente novamente.";
+            msgRetorno.className = "msg-erro";
+            msgRetorno.style.display = "block";
+            console.error('Erro!', error.message);
+            
+            // Restaura o botão
+            btnSubmit.innerText = originalBtnText;
+            btnSubmit.disabled = false;
+            btnSubmit.style.opacity = '1';
+          });
+    });
+</script>
+
+</body>
+</html>
